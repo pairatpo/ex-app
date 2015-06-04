@@ -47,6 +47,7 @@
     <Content Include="app\components\dashboard\dashboard.template.html" />
     <Content Include="app\components\dashboard\widgets\widgets.divContent.js" />
     <Content Include="app\components\dashboard\widgets\widgets.divContent2.js" />
+    <Content Include="app\components\dashboard\widgets\widgets.divNoBase.js" />
     <Content Include="app\shared\chart.js" />
     <Content Include="app\shared\lodash\lodashWrapper.js" />
     <Content Include="app\shared\moment\momentWrapper.js" />

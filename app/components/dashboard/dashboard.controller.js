@@ -1,9 +1,11 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('ex-app').controller('dashboardController', ctrl);
+    angular
+        .module('ex-app')
+        .controller('dashboardController', ctrl);
 
-    function ctrl($scope, $state, $window) {
+    function ctrl($scope, $state, $window, dashboardService, _) {
 
         var _self = this;
         //this.prototype = new baseController();
@@ -20,75 +22,23 @@
             //isMobile: true, // stacks the grid items if true
             //mobileBreakPoint: 600, // if the screen is not wider that _self, remove the grid layout and stack the items
             //mobileModeEnabled: true,
+            avoid_overlapped_widgets: true,
             draggable: {
                 handle: 'div.panel-heading'
             }
         };
-        //_self.standardItems = [
-        //    { sizeX: 8, sizeY: 7, row: 0, col: 0 },
-        //    { sizeX: 8, sizeY: 7, row: 0, col: 8 },
-        //    { sizeX: 8, sizeY: 6, row: 7, col: 0 },
-        //    { sizeX: 4, sizeY: 6, row: 7, col: 8 },
-        //    { sizeX: 4, sizeY: 6, row: 7, col: 12 },
-        //    { sizeX: 4, sizeY: 6, row: 13, col: 0 },
-        //    { sizeX: 3, sizeY: 6, row: 13, col: 4 },
-        //    { sizeX: 4, sizeY: 6, row: 13, col: 7 },
-        //    { sizeX: 5, sizeY: 6, row: 13, col: 11 },
-        //    { sizeX: 4, sizeY: 7, row: 19, col: 0 },
-        //    { sizeX: 3, sizeY: 7, row: 19, col: 4 },
-        //    { sizeX: 4, sizeY: 7, row: 19, col: 7 },
-        //    { sizeX: 5, sizeY: 7, row: 19, col: 11 },
-        //    { sizeX: 4, sizeY: 8, row: 26, col: 0 },
-        //    { sizeX: 6, sizeY: 8, row: 26, col: 4 },
-        //    { sizeX: 6, sizeY: 8, row: 26, col: 10 }
-        //];
 
         _self.standardItems = [];
 
         _self.clickCount = 0;
-        _self.generateStandardItems = function () {
+        _self.generateStandardItems = generateStandardItems;
+        _self.generateStandardItemsByHttpData = generateStandardItemsByHttpData;
+        _self.addOne = addOne;
+        _self.removeAll = removeAll;
 
-            if (_self.clickCount === 0) {
-                _self.standardItems = [
-                    { sizeX: 4, sizeY: 15, row: 0, col: 0, model: { type: 'chart' } },
-                    { sizeX: 4, sizeY: 5, row: 0, col: 5, model: { type: '2' } },
-                    { sizeX: 4, sizeY: 5, row: 5, col: 5, model: { type: '2' } },
-                    { sizeX: 4, sizeY: 5, row: 10, col: 5, model: { type: '1' } },
-                ];
-            } else if (_self.clickCount === 1) {
-                _self.standardItems = [
-                    { sizeX: 4, sizeY: 15, row: 0, col: 0, model: { type: 'chart' } },
-                    { sizeX: 2, sizeY: 5, row: 0, col: 0, model: { type: '2' } },
-                    { sizeX: 2, sizeY: 5, row: 0, col: 3, model: { type: '2' } },
-                    { sizeX: 4, sizeY: 5, row: 10, col: 5, model: { type: '1' } },
-                ];
-            }
+        _self.increaseCols = increaseCols;
 
-            _self.clickCount += 1;
-            if (_self.clickCount === 2) { _self.clickCount = 0; }
-        };
-        _self.addOne = function () {
-
-            _self.standardItems.push({
-                sizeX: Math.floor((Math.random() * 4) + 1),
-                sizeY: 8
-            });
-        };
-        _self.removeAll = function () {
-
-            _self.standardItems = [];
-        };
-
-        _self.increaseCols = function () {
-            _self.gridsterOptions.columns += 1;
-        };
-
-        _self.isChartContent = function (item) {
-            if (!item) { return false; }
-            if (!item.model) { return false; }
-            if (!item.model.type) { return false; }
-            return item.model.type === 'chart';
-        };
+        _self.isChartContent = isChartContent;
         _self.chartModel = {
             'options': {
                 'chart': {
@@ -125,7 +75,88 @@
                 'height': '300'
             }
         };
+
+
+
+        function generateStandardItems() {
+
+            //if (_self.clickCount === 0) {
+            //    _self.standardItems = [
+            //        { sizeX: 4, sizeY: 15, row: 0, col: 0, model: { type: 'chart' } },
+            //        { sizeX: 4, sizeY: 5, row: 0, col: 5, model: { type: '2' } },
+            //        { sizeX: 4, sizeY: 5, row: 5, col: 5, model: { type: '3' } },
+            //        { sizeX: 4, sizeY: 5, row: 10, col: 5, model: { type: '1' } },
+            //    ];
+            //} else if (_self.clickCount === 1) {
+            //    _self.standardItems = [
+            //        { sizeX: 4, sizeY: 5, row: 0, col: 0, model: { type: '3' } },
+            //        { sizeX: 4, sizeY: 5, row: 5, col: 0, model: { type: '1' } },
+            //        { sizeX: 4, sizeY: 5, row: 10, col: 0, model: { type: '2' } },
+            //        { sizeX: 4, sizeY: 15, row: 0, col: 5, model: { type: 'chart' } },
+            //    ];
+            //}
+
+            _self.standardItems = dashboardService.getDashboardData(_self.clickCount);
+
+            _self.clickCount += 1;
+            if (_self.clickCount === 2) { _self.clickCount = 0; }
+        };
+        function addOne() {
+
+            _self.standardItems.push({
+                sizeX: Math.floor((Math.random() * 4) + 1),
+                sizeY: 8
+            });
+        };
+        function removeAll() {
+
+            _self.standardItems = [];
+        };
+        function increaseCols() {
+            _self.gridsterOptions.columns += 1;
+        };
+        function isChartContent(item) {
+            if (!item) { return false; }
+            if (!item.model) { return false; }
+            if (!item.model.type) { return false; }
+            return item.model.type === 'chart';
+        };
+        function generateStandardItemsByHttpData() {
+
+            //_self.standardItems = dashboardService.getHttpResponse().then(onGetHttpResponse);
+
+            _self.standardItems = [];
+            dashboardService.getHttpResponse().then(onGetHttpResponse);
+
+            function onGetHttpResponse(data) {
+
+                var index = 0;
+
+                _.each(data, function (obj) {
+                    _self.standardItems.push({
+                        sizeX: 2, sizeY: 5, row: 0, col: index * 2, model: {
+                            type: '1',
+                            title: obj.Country
+                        }
+                    });
+
+                    if (index < 3) { index++ }
+                    else { index = 0; }
+
+                });
+                //console.log(data);
+                //_self.standardItems = _.map(data, function (obj) {
+                //    return {
+                //        sizeX: 2, sizeY: 5, row: 0, col: 0, model: {
+                //            type: '1',
+                //            title: obj.Country
+                //        }
+                //    };
+                //});
+            };
+        };
     };
+
     ctrl.prototype = new baseController();
 
 

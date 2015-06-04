@@ -2,5 +2,8 @@
 
 function baseDirective() {
 };
-//baseDirective.prototype.scope = {};
-//baseDirective.prototype.scope.guid = guid();
+baseDirective.prototype.template = [
+    '<div class="" style="">',
+        '<span>directive : div content as base</span><br>',
+    '</div>'
+].join('');

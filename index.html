@@ -3,12 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="ex-app">
 <head>
     <meta charset="utf-8" />
-    <title>Test</title>
-</head>
-<body ng-controller="appController as rootCtrl" class="{{rootCtrl.theme}}">
-    <div class="content" ui-view>
-        loading ....
-    </div>
+    <title>ex-app</title>
 
     <!-- build:css assets/css/libs.css -->
     <!-- Move all css files and scripts to bottom -->
@@ -17,10 +12,16 @@
     <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap/css/bootstrap.css" />
     <!-- endbuild -->
 
-    <!-- build:css assets/css/apps.css -->
+    <!-- build:css assets/css/theme/base.css -->
     <link rel="stylesheet" type="text/css" href="assets/css/base/main.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/base/bootsrap.css" />
     <!-- endbuild -->
+
+</head>
+<body ng-controller="appController as rootCtrl" class="{{rootCtrl.theme}}">
+    <div class="content" ui-view>
+        loading ....
+    </div>
 
     <!-- build:js assets/js/libs.js -->
     <script src="assets/libs/angular/angular.js"></script>
@@ -53,16 +54,19 @@
     <script src="app/shared/lodash/lodashWrapper.js"></script>
     <script src="app/shared/moment/momentWrapper.js"></script>
 
-    <!-- base -->
+    <!-- # base -->
     <script src="app/components/base/base.controller.js"></script>
     <script src="app/components/base/base.directive.js"></script>
 
-    <!-- components -->
-    <script src="app/components/dashboard/dashboard.controller.js"></script>
-    <script src="app/components/about/about.controller.js"></script>
+    <!-- # components/features -->
 
+    <script src="app/components/dashboard/dashboard.controller.js"></script>
+    <script src="app/components/dashboard/dashboard.service.js"></script>
     <script src="app/components/dashboard/widgets/widgets.divContent.js"></script>
     <script src="app/components/dashboard/widgets/widgets.divContent2.js"></script>
+    <script src="app/components/dashboard/widgets/widgets.divNoBase.js"></script>
+
+    <script src="app/components/about/about.controller.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -1,56 +1,37 @@
-﻿'use strict';
+﻿(function () {
+    'use strict';
 
-//function directive() {
+    angular
+        .module('ex-app')
+        .directive('exDivContent2', divContent2);
 
-//    var drtvObj = function () { };
-//    drtvObj.prototype = new baseDirective();
+    function divContent2() {
 
-//    drtvObj.prototype.restrict = 'EA';
-//    drtvObj.prototype.replace = true;
-//    drtvObj.prototype.scope = {};
-//    drtvObj.prototype.template = [
-//        '<div class="" style="">',
-//            '<span>directive : {{guid}}</span>',
-//        '</div>'
-//    ].join('');
-//    drtvObj.prototype.link = {
-//        pre: function (scope, element, attrs) { },
-//        post: function (scope, element, attrs) {
+        var drtvObj = function () { };
+        drtvObj.prototype = new baseDirective();
 
-//            scope.$on('$destroy', function () {
-//                console.log('destroy : ' + scope.guid);
-//            });
-//        },
-//    };
+        drtvObj.prototype.restrict = 'EA';
+        drtvObj.prototype.replace = true;
+        //drtvObj.prototype.scope = {};
+        //drtvObj.prototype.template = [
+        //    '<div class="" style="">',
+        //        '<span>directive : div content 2</span>',
+        //    '</div>'
+        //].join('');
+        drtvObj.prototype.link = {
 
-//    return new drtvObj();
-//};
+            pre: function (scope, element, attrs) {
+                console.log('################### DIV CONTENT 2');
+            },
+            post: function (scope, element, attrs) {
 
-angular.module('ex-app').directive('divContent2', function () {
+                scope.$on('$destroy', function () {
+                    console.log('destroy : ' + scope.guid);
+                });
+            },
+        };
 
-    var drtvObj = function () { };
-    drtvObj.prototype = new baseDirective();
-
-    drtvObj.prototype.restrict = 'EA';
-    drtvObj.prototype.replace = true;
-    //drtvObj.prototype.scope = {};
-    drtvObj.prototype.template = [
-        '<div class="" style="">',
-            '<span>directive : div content 2</span>',
-        '</div>'
-    ].join('');
-    drtvObj.prototype.link = {
-
-        pre: function (scope, element, attrs) {
-            console.log('################### DIV CONTENT 2');
-        },
-        post: function (scope, element, attrs) {
-
-            scope.$on('$destroy', function () {
-                console.log('destroy : ' + scope.guid);
-            });
-        },
+        return new drtvObj();
     };
+})();
 
-    return new drtvObj();
-});
