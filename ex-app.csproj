@@ -55,6 +55,7 @@
     <Content Include="app\shared\navigation\navigation.template.html" />
     <Content Include="assets\css\base\bootsrap.css" />
     <Content Include="assets\css\base\main.css" />
+    <Content Include="assets\js\highstock.src.js" />
     <Content Include="assets\js\utils\guid.js" />
     <Content Include="index.html" />
     <Content Include="Gruntfile.js" />
